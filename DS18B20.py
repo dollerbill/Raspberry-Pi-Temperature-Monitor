@@ -55,7 +55,7 @@ class DS18B20():
         else:
             degrees_c = origin / 1000
             degrees_f = origin * 9 / 5000 + 32
-            return origin, degrees_c, degrees_f
+            return degrees_f
 
     def get_origin(self):
         """
