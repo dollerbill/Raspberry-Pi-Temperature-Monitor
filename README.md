@@ -31,8 +31,10 @@
 
 	sudo apt-get install ssmtp mailutils
 Edit the ssmtp conf file
+	
 	sudo nano /etc/ssmtp/ssmtp.conf
 Change the file so it says:
+	
 	root=postmaster
 	mailhub=smtp.gmail.com:587
 	hostname=raspberrypi
@@ -49,6 +51,7 @@ In this example you must use a gmail account, otherwise you will need to change 
 
 	crontab -e
 At the bottom add: 
+	
 	30 12 * * * python temperature.py | mail -s "Pool Temp" your.email@address.com
 This will email the result of the script every day at 12:30pm. Make changes to the Cron schedule by editing the time or the asterisks, which mean "any."
 
