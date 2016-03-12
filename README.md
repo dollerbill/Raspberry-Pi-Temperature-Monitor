@@ -33,13 +33,13 @@
 Edit the ssmtp conf file
 	sudo nano /etc/ssmtp/ssmtp.conf
 Change the file so it says:
-root=postmaster
-mailhub=smtp.gmail.com:587
-hostname=raspberrypi
-FromLineOverride=YES
-AuthUser=YourEmailAddress
-AuthPass=YourEmailPassword
-UseSTARTTLS=YES
+	root=postmaster
+	mailhub=smtp.gmail.com:587
+	hostname=raspberrypi
+	FromLineOverride=YES
+	AuthUser=YourEmailAddress
+	AuthPass=YourEmailPassword
+	UseSTARTTLS=YES
 
 In this example you must use a gmail account, otherwise you will need to change the mailhub line in the conf file.
 
