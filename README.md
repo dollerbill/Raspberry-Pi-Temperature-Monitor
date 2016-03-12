@@ -1,11 +1,25 @@
 #Raspberry Pi & DS18B20 temperature sensor with python
 
 
-##Run on Raspberry Pi
-    Running headless on an install of Jessie Lite
+##Raspberry Pi
+    I am running this script on a headless install of Jessie Lite.
 
-###I Used Systemd/Timers
-#### ds18b20.timer
+####Activating the temperature sensor
+###Enable 1Wire devices
+First edit the config file to enable 1Wire devices working through GPIO.
+
+	sudo nano /etc/boot.txt
+Add this line to the end of the file:
+
+	dtoverlay=w1-gpio
+
+###Enable necessary drivers
+
+	sudo modprobe w1-gpio
+	sudo modprobe w1-therm
+
+
+	
 
     [Unit]
     Description=Run ds18b20 for temperature
