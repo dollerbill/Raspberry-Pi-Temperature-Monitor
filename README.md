@@ -2,7 +2,7 @@
 
 
 ##Raspberry Pi
-    I am running this script on a headless install of Jessie Lite.
+    I am running this script on a headless install of Raspbian Jessie Lite.
 
 ####Activating the temperature sensor
 ###Enable 1Wire devices
@@ -19,17 +19,29 @@ Add this line to the end of the file:
 	sudo modprobe w1-therm
 
 
-	
+###Test the thermometer
+Cd into the 1Wire device folder and list files to make sure the thermometer is properly loaded and connected.
 
-    [Unit]
-    Description=Run ds18b20 for temperature
+	cd /sys/bus/w1/devices/
+	ls
 
-	[Timer]
-	OnBootSec=1min
-	OnUnitActiveSec=1min
+There should be a foldering starting with 28-... Cd into that directory and check the output of the 1Wire slave file. (Make sure to use the full directory name listend after you ran the 'ls' command previously)
 
-	[Install]
-	WantedBy=timers.target
+	cd 28-...
+	cat w1_slave
+
+You should see two lines similar to 
+"f6 00 4b 46 7f ff 0c 10 7c : crc=7c YES
+f6 00 4b 46 7f ff 0c 10 7c t=15375"
+The first ending in YES tells us the thermomter is connected and working properly, the second shows us the temp (t) in thousandths of a degree Celsius. Divide this number by 1000 to see the current temperature (15375/1000 = 15.375* C). 
+
+
+###Python script to display the temperature in Farenheit
+Create a script that will display the temperature for us in degrees Farenheit
+
+	sudo nano temperature.py
+
+
 
 ####ds18b20.service
 
