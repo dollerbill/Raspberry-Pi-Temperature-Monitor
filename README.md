@@ -59,7 +59,7 @@ Create a script that will display the temperature for us in degrees Farenheit
 Edit the ssmtp conf file
 	
 	sudo nano /etc/ssmtp/ssmtp.conf
-Change the file so it says:
+Change the file to read:
 	
 	root=postmaster
 	mailhub=smtp.gmail.com:587
