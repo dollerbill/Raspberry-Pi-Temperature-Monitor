@@ -1,11 +1,11 @@
-#Raspberry Pi & DS18B20 temperature sensor with python
+# Raspberry Pi & DS18B20 temperature sensor with python
 
 
-##Raspberry Pi
+## Raspberry Pi
     I am running this script on a headless install of Raspbian Jessie Lite.
 
-####Activating the temperature sensor
-###Enable 1Wire devices
+#### Activating the temperature sensor
+### Enable 1Wire devices
 First edit the config file to enable 1Wire devices working through GPIO.
 
 	sudo nano /etc/boot.txt
@@ -13,37 +13,38 @@ Add this line to the end of the file:
 
 	dtoverlay=w1-gpio
 
-###Enable necessary drivers
+### Enable necessary drivers
 
 	sudo modprobe w1-gpio
 	sudo modprobe w1-therm
 
 
-###Test the thermometer
-Cd into the 1Wire device folder and list files to make sure the thermometer is properly loaded and connected.
+### Test the thermometer
+Change into the 1Wire device folder and list files to make sure the thermometer is properly loaded and connected.
 
 	cd /sys/bus/w1/devices/
 	ls
 
-There should be a foldering starting with 28-... Cd into that directory and check the output of the 1Wire slave file. (Make sure to use the full directory name listend after you ran the 'ls' command previously)
+There should be a foldering starting with 28-... Change into that directory and check the output of the 1Wire slave file. (Make sure to use the full directory name listend after you ran the 'ls' command previously)
 
 	cd 28-...
 	cat w1_slave
 
 You should see two lines similar to 
 "f6 00 4b 46 7f ff 0c 10 7c : crc=7c YES
+
 f6 00 4b 46 7f ff 0c 10 7c t=15375"
-The first ending in YES tells us the thermomter is connected and working properly, the second shows us the temp (t) in thousandths of a degree Celsius. Divide this number by 1000 to see the current temperature (15375/1000 = 15.375* C). 
+The first line ending in YES tells us the thermomter is connected and working properly, the second shows us the temp (t) in Celsius in thousandths of a degree. Divide this number by 1000 to see the current temperature (15375/1000 = 15.375* C). 
 
 
-###Python script to display the temperature in Farenheit
+### Python script to display the temperature in Farenheit
 Create a script that will display the temperature for us in degrees Farenheit
 
 	sudo nano temperature.py
 
 
 
-####ds18b20.service
+#### ds18b20.service
 
 	[Unit]
 	Description=Run ds18b20 sensor
