@@ -1,10 +1,10 @@
 # Raspberry Pi & DS18B20 temperature sensor with python
-
+Monitor and log temperatures using python, a Raspberry Pi and a wired temperature sensor. 
 
 ## Raspberry Pi
-    I am running this script on a headless install of Raspbian Jessie Lite.
+    I am running this script on a headless install of Raspbian Jessie Lite. The DS18B20 sensor is attached to GPIO pins 1(3.3v), 6(Ground), and 7(GPIO4/Data) and is pulled up with a 4.7kOhm resisitor.
 
-#### Activating the temperature sensor
+## Activating the temperature sensor
 ### Enable 1Wire devices
 First edit the config file to enable 1Wire devices working through GPIO.
 
@@ -38,20 +38,17 @@ The first line ending in YES tells us the thermomter is connected and working pr
 
 
 ### Python script to display the temperature in Farenheit
-Create a script that will display the temperature for us in degrees Farenheit
+Move the temperature.py script to your Raspberry Pi. Make note of the location because we'll be using it later to check our results.
+Line 58 of the script:
 
-	sudo nano temperature.py
+	return degrees_f
+	
+Can be changed between 'c' and 'f', depending which temperature scale you prefer your results in.
+To test script output from the sensor, change into the director containing the python script and run:
 
+	python temperature.py
+This will return your current temperature value in your specified temperature scale.
 
-
-#### ds18b20.service
-
-	[Unit]
-	Description=Run ds18b20 sensor
-
-	[Service]
-	User=your-username
-	ExecStart=/usr/bin/env/python2 /your-path/temperature.py
 
 #### Email the results
 **Install SSMTP**
@@ -66,20 +63,21 @@ Change the file to read:
 	mailhub=smtp.gmail.com:587
 	hostname=raspberrypi
 	FromLineOverride=YES
-	AuthUser=YourEmailAddress
-	AuthPass=YourEmailPassword
+	AuthUser={YourEmailAddress}
+	AuthPass={YourEmailPassword}
 	UseSTARTTLS=YES
 
 In this example you must use a gmail account, otherwise you will need to change the mailhub line in the conf file.
 
 
-**Create a Cron job to run the scrip daily and email the results**
+**Create a Cron job to run the script daily and email the results**
 
 
 	crontab -e
-At the bottom add: 
+At the bottom add this line, and remember to change it to match your specific values: 
 	
-	30 12 * * * python temperature.py | mail -s "Pool Temp" your.email@address.com
-This will email the result of the script every day at 12:30pm. Make changes to the Cron schedule by editing the time or the asterisks, which mean "any."
+	30 12 * * * python {/yourpath}/temperature.py | mail -s "Temp Reading" {your.email@address.com}
+	
+This will email the result of the script every day at 12:30pm. Changes can be made to the Cron schedule by editing the five positions, which are, in order: minute, hour, day of month, month, day of week. Leaving an asterisk in any position will set the value to any (e.g. an asterisk in the 4th position would trigger the event every month, at the timing of the remaining values).
 
 
